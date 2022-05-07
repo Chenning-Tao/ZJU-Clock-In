@@ -112,7 +112,7 @@ class DaKa(object):
         new_info['jcqzrq'] = ""
         new_info['gwszdd'] = ""
         new_info['szgjcs'] = ""
-        resp = self.sess.get(captcha_url)
+        resp = self.sess.get(self.captcha_url)
         captcha = self.ocr.classification(resp.content)
         new_info['verifyCode'] = captcha
         self.info = new_info
