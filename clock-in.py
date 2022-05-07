@@ -8,6 +8,8 @@ import re
 import datetime
 import time
 import sys
+import ddddocr
+
 
 
 class DaKa(object):
@@ -28,6 +30,9 @@ class DaKa(object):
         self.login_url = "https://zjuam.zju.edu.cn/cas/login?service=https%3A%2F%2Fhealthreport.zju.edu.cn%2Fa_zju%2Fapi%2Fsso%2Findex%3Fredirect%3Dhttps%253A%252F%252Fhealthreport.zju.edu.cn%252Fncov%252Fwap%252Fdefault%252Findex"
         self.base_url = "https://healthreport.zju.edu.cn/ncov/wap/default/index"
         self.save_url = "https://healthreport.zju.edu.cn/ncov/wap/default/save"
+        self.captcha_url = "https://healthreport.zju.edu.cn/ncov/wap/default/code"
+        self.ocr = ddddocr.DdddOcr()
+
         self.headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
         }
@@ -107,6 +112,9 @@ class DaKa(object):
         new_info['jcqzrq'] = ""
         new_info['gwszdd'] = ""
         new_info['szgjcs'] = ""
+        resp = self.sess.get(captcha_url)
+        captcha = self.ocr.classification(resp.content)
+        new_info['verifyCode'] = captcha
         self.info = new_info
         return new_info
 
