@@ -20,6 +20,8 @@ jobs:
         run: |
           sudo -E apt-get -yqq update
           sudo -E apt-get -yqq install python3
+          python -m pip install --upgrade pip
+          pip install ddddocr
       - name: Clock In
         env:
           ACCOUNT: ${{ secrets.ACCOUNT }}
